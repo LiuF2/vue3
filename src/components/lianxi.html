@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1></h1>
+    <script>
+        let obj={
+            username:'张三',
+            age:'12',
+            work:[1,2,3],
+            o:{
+                n:'n'
+            }
+        }
+//        #region
+//         Object.defineProperty(obj,'k',{
+//             get(target,a){
+//                 console.log(target,a)
+// return 100
+//             },
+//             set(){
+//
+//             }
+//         })
+//         Reflect.defineProperty(p,'work',{
+//             get(){
+//                return obj.work
+//             },
+//             set(a,b){
+//                 console.log('有人xiugai了work')
+//                 p.a=a
+//             }
+//
+//         })
+//        #endregion
+       let p= new Proxy(obj,{
+            get(target,p,value){
+                console.log('有人读取了',p)
+                return Reflect.get(obj,p)
+            },
+           set(target,p,value){
+               console.log('xiugao',p)
+               // target[p]=value
+               Reflect.set(target,p,value)
+           },
+           deleteProperty(target, p) {
+                console.log('有人删除了',p)
+             return delete target[p]
+           }
+       },{deep:true})
+    </script>
+</body>
+</html>
